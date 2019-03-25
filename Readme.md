@@ -52,7 +52,7 @@ Create script to start the mlflow service
 #!/bin/sh
 if [ $1 = 'start' ]
 then
-    mlflow server --file-store /home/ec2-user/mlflow_file_store --default-artifact-root s3://engineering.insightzen.com/workspace/mlflow_disk/artifact-root/ --host 0.0.0.0
+    mlflow server --file-store /home/ec2-user/mlflow_file_store --default-artifact-root s3://YOUR_BUCKET_HERE/workspace/mlflow_disk/artifact-root/ --host 0.0.0.0
 fi  
 ```
 Add mlflow.service as a systemctl service.
@@ -83,7 +83,7 @@ Create script to upload file to S3 bucket
 # backup mlflow file and upload to s3
 
 MLFILE_DIR='/home/ec2-user/mlflow_file_store/'
-S3_DIR='s3://engineering.insightzen.com/workspace/mlflow_disk/file-store/'
+S3_DIR='s3://YOUR_BUCKET_HERE/workspace/mlflow_disk/file-store/'
 LOG='/home/ec2-user/bakup/upload.log'
 set -x
 daytime=$(date "+%Y%m%d")
