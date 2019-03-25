@@ -46,8 +46,8 @@ Note:
 
 2. I use a s3 bucket for the `--default-artifact-root` in this example, but you can use local folder as well. You can read more about MLflow storage [here](https://www.mlflow.org/docs/latest/tracking.html#storage)
 
-### 1.4 Run mlflow as service
-Create script to start the mlflow service 
+### 1.4 Run MLflow as service
+Create script to start the MLflow service 
 ```
 #!/bin/sh
 if [ $1 = 'start' ]
