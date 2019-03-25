@@ -46,6 +46,60 @@ Note:
 
 2. I use a s3 bucket for the `--default-artifact-root` in this example, but you can use local folder as well. You can read more about MLflow storage [here](https://www.mlflow.org/docs/latest/tracking.html#storage)
 
+### 1.4 Run mlflow as service
+Create script to start the mlflow service 
+```
+
+#!/bin/sh
+if [ $1 = 'start' ]
+then
+    mlflow server --file-store /home/ec2-user/mlflow_file_store --default-artifact-root s3://engineering.insightzen.com/workspace/mlflow_disk/artifact-root/ --host 0.0.0.0
+fi  
+```
+Add mlflow.service as a systemctl service.
+Create a new file /usr/lib/systemd/system/mlflow.service
+```
+[Unit]
+Description=mlflow service
+
+[Service]
+Type=simple
+ExecStart=/home/ec2-user/mlflowService.sh start
+
+[Install]
+WantedBy=mutil-user.target
+```
+Start mlflow service
+```
+sudo  systemctl start mlflow.service
+```
+check status 
+```
+sudo  systemctl status mlflow.service
+```
+### 1.5 Back upthe mlflow file store folder periodically
+Create script to upload file to S3 bucket
+```
+#!/bin/bash
+# backup mlflow file and upload to s3
+
+MLFILE_DIR='/home/ec2-user/mlflow_file_store/'
+S3_DIR='s3://engineering.insightzen.com/workspace/mlflow_disk/file-store/'
+LOG='/home/ec2-user/bakup/upload.log'
+set -x
+daytime=$(date "+%Y%m%d")
+bakfile=/home/ec2-user/bakup/"mlflow"$daytime".tar"
+tar -czvf $bakfile  $MLFILE_DIR
+echo $(date +%Y-%m-%d,%H:%m:%s) >> $LOG
+echo 'create bakfile '$bakfile >> $LOG
+aws s3 cp $bakfile $S3_DIR
+echo 'upload s3 succeed' >> $LOG
+set +x
+```
+Add a crontab record to run the script once a day
+```
+00 02 * * * /home/ec2-user/upload2s3.sh
+```
 
 ## 2. Create a mlflow virtuanl environment
 
