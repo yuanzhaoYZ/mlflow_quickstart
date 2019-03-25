@@ -2,7 +2,7 @@
 # backup mlflow file and upload to s3
 
 MLFILE_DIR='/home/ec2-user/mlflow_file_store/'
-S3_DIR='s3://engineering.insightzen.com/workspace/mlflow_disk/file-store/'
+S3_DIR='s3://YOUR_BUCKET_HERE/workspace/mlflow_disk/file-store/'
 LOG='/home/ec2-user/bakup/upload.log'
 set -x
 daytime=$(date "+%Y%m%d")
