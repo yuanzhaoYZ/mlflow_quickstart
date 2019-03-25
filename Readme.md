@@ -49,7 +49,6 @@ Note:
 ### 1.4 Run mlflow as service
 Create script to start the mlflow service 
 ```
-
 #!/bin/sh
 if [ $1 = 'start' ]
 then
