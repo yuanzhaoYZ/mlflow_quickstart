@@ -76,7 +76,7 @@ check status
 ```
 sudo  systemctl status mlflow.service
 ```
-### 1.5 Back upthe mlflow file store folder periodically
+### 1.5 Backup the mlflow file store folder periodically
 Create script to upload file to S3 bucket
 ```
 #!/bin/bash
